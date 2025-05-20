@@ -27,15 +27,15 @@ class Repository:
         await conn.close()
 
     # noinspection PyMethodMayBeStatic
-    async def add_reminder(self, chat_id, job_id, text, type_):
+    async def add_reminder(self, chat_id, job_id, text, type_, time_next_reminder):
         conn = await self.connect()
         try:
             await conn.execute(
                 """
-                INSERT INTO reminders (chat_id, job_id, text, type)
-                VALUES ($1, $2, $3, $4)
+                INSERT INTO reminders (chat_id, job_id, text, type, time_reminder)
+                VALUES ($1, $2, $3, $4, $5)
                 """,
-                chat_id, job_id, text, type_
+                chat_id, job_id, text, type_, time_next_reminder
             )
         finally:
             await conn.close()
