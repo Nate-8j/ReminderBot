@@ -133,9 +133,10 @@ async def onetime_txt(message: types.Message, state: FSMContext):
     )
     txt = message.text
     small_text = txt if len(txt) < 15 else txt[:15] + '...'
+    time_ = str(remind_date.strftime('%d.%m.%Y %H:%M'))
 
     job_id = await reminder_manager.add_onetime_reminder(chat_id=message.chat.id, text=txt, remind_time=remind_date)
-    await repository.add_reminder(chat_id=message.chat.id, job_id=job_id, text=small_text, type_='одн.')
+    await repository.add_reminder(chat_id=message.chat.id, job_id=job_id, text=small_text, type_='раз.', time_next_reminder=time_)
 
     formatted_text = (
         f"✅ <b>Напоминание установлено</b>\n"
@@ -307,27 +308,34 @@ async def saving_regular(message: types.Message, state: FSMContext):
     hour = data.get('hour')
     minute = data.get('minute')
     month = data.get('month')
-    small_text = txt if len(txt) < 15 else txt[:15] + '...'
 
     message_id = data.get('message_id')
+    small_text = txt if len(txt) < 15 else txt[:15] + '...'
+    week_day_text = ["пн", "вт", "ср", "чт", "пт", "сб", "вс"]
 
     trigger = None
+    time_ = None
 
     if not my_types:
         trigger = CronTrigger(hour=hour, minute=minute)
+        time_ = f'{hour}:{minute}'
 
     elif my_types == "week":
-        days_str = ",".join(str(day) for day in selected_weekdays)
-        trigger = CronTrigger(day_of_week=days_str, hour=hour, minute=minute)
+        days_digit = ",".join(str(day) for day in selected_weekdays)
+        days_str = ', '.join([week_day_text[int(i)] for i in days_digit])
+        trigger = CronTrigger(day_of_week=days_digit, hour=hour, minute=minute)
+        time_ = f'{days_str} {hour}:{minute}'
 
     elif my_types == "month":
         trigger = CronTrigger(day=day, hour=hour, minute=minute)
+        time_ = f'{day} {hour}:{minute}'
 
     elif my_types == "year":
         trigger = CronTrigger(month=month, day=day, hour=hour, minute=minute)
+        time_ = f'{month} {day} {hour}:{minute}'
 
     job_id = await reminder_manager.add_regular_reminder(chat_id=chat_id, text=txt, trigger=trigger)
-    await repository.add_reminder(chat_id=chat_id, job_id=job_id, text=small_text, type_='рег.')
+    await repository.add_reminder(chat_id=chat_id, job_id=job_id, text=small_text, type_='рег.', time_next_reminder=time_)
 
     await bot.edit_message_text(
         chat_id=message.chat.id,
@@ -414,9 +422,10 @@ async def interval_save(message: types.Message, state: FSMContext):
 
     for delta in intervals:
         scheduled_time = reminder_time + delta
+        time_ = str(scheduled_time)
 
         job_id = await reminder_manager.add_interval_repetition(chat_id=chat_id, text=txt, remind_time=scheduled_time)
-        await repository.add_reminder(chat_id=chat_id, job_id=job_id, text=small_text, type_='инт.')
+        await repository.add_reminder(chat_id=chat_id, job_id=job_id, text=small_text, type_='инт', time_next_reminder=time_)
 
     await bot.edit_message_text(
         chat_id=message.chat.id,
@@ -457,8 +466,9 @@ async def list_reminders(message: types.Message, state: FSMContext):
     for i, reminder in enumerate(res_reminders):
         txt = reminder.get('text')
         type_ = reminder.get('type')
+        time_ = reminder.get('time_reminder')
         if txt not in text:
-            text += f"{i + 1}) <i>{txt}</i> - {type_}\n"
+            text += f"{i + 1}) <i>{txt}</i>  -  {time_} ({type_})\n"
 
     await message.answer(
         text=text,
@@ -503,7 +513,7 @@ async def remove_r(message: types.Message, state: FSMContext):
 
             deleted.append(idx)
     if deleted:
-        await message.answer(f"✅ Готово:{', '.join(map(str, deleted))}")
+        await message.answer(f"✅ Готово: {', '.join(map(str, deleted))}")
     else:
         await message.answer("❌ Попробуйте снова")
         return
