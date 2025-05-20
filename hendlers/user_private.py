@@ -322,9 +322,9 @@ async def saving_regular(message: types.Message, state: FSMContext):
 
     elif my_types == "week":
         days_digit = ",".join(str(day) for day in selected_weekdays)
-        days_str = ', '.join([week_day_text[int(i)] for i in days_digit])
+        days_str = [week_day_text[int(i)] for i in days_digit.split(',')]
         trigger = CronTrigger(day_of_week=days_digit, hour=hour, minute=minute)
-        time_ = f'{days_str} {hour}:{minute}'
+        time_ = f'{", ".join(days_str)} {hour}:{minute}'
 
     elif my_types == "month":
         trigger = CronTrigger(day=day, hour=hour, minute=minute)
