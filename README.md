@@ -49,25 +49,6 @@ You can list and delete your active reminders at any time.
 
 ---
 
-## 📂 Project Structure
-
-aiogram_bot/
-    common/
-        database/
-            db_repository.py
-            psql.sql
-        scheduler.py
-    handlers/
-        admin_private.py
-        user_private.py
-    kbds/
-        inline.py
-        reply.py
-    .env
-    main.py
-
----
-
 ## 🤝 Contact
 
 If you have questions or want to contribute, feel free to reach out!
