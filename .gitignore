@@ -1,0 +1,36 @@
+# Папки и файлы Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+env/
+.venv/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Настройки IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Файлы окружения
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Логи и базы данных
+*.log
+*.sqlite
+*.db
+
+# Docker
+docker-compose.override.yml
+
+# Прочее
+.DS_Store
+Thumbs.db
