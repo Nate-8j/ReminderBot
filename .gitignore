@@ -27,9 +27,12 @@ venv.bak/
 *.log
 *.sqlite
 *.db
+test_db.py
 
 # Docker
 docker-compose.override.yml
+docker-compose.yml
+Dockerfile
 
 # Прочее
 .DS_Store
