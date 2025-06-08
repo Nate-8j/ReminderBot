@@ -26,12 +26,13 @@ You can list and delete your active reminders at any time.
 
 ## 🧩 Technologies Used
 
-- [aiogram 3.x](https://github.com/aiogram/aiogram ) — async Telegram bot framework
-- [apscheduler 4.x](https://github.com/agronholm/apscheduler ) — task scheduling
-- [asyncpg](https://github.com/MagicStack/asyncpg ) — async PostgreSQL driver
-- [SQLAlchemy](https://github.com/sqlalchemy/sqlalchemy ) — for scheduler storage
-- [aiogram-calendar](https://github.com/aiogram-md/aiogram_calendar ) — calendar UI for choosing dates
-
+- aiogram~=3.13.1
+- asyncpg~=0.30.0
+- sqlalchemy~=2.0.40
+- apscheduler~=4.0.0a5
+- dotenv~=0.9.9
+- python-dotenv~=1.0.1
+- aiogram-calendar~=0.5.0
 ---
 
 ## 🛠 Installation
@@ -40,11 +41,12 @@ You can list and delete your active reminders at any time.
 
 2. Create .env file:
   DB_URL=...
+  ASYNC_DB_URL=...
   BOT_TOKEN=your_telegram_bot_token
 
-3. Create database and tables
+4. Create database and tables
 
-4. Start the bot:
+5. Start the bot:
   python main.py
 
 ---
