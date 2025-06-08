@@ -22,7 +22,7 @@ def reminder_type():
 def choose_hour(call):
     hours = InlineKeyboardBuilder()
     for hour in range(24):
-        hours.button(text=f"{hour:02d}", callback_data=f"{call}_{hour}")
+        hours.button(text=f"{hour:02d}", callback_data=f"{call}_{hour:02d}")
     hours.adjust(6)
     return hours.as_markup()
 
@@ -30,7 +30,7 @@ def choose_hour(call):
 def choose_minute(call):
     minutes = InlineKeyboardBuilder()
     for minute in range(0, 60, 5):
-        minutes.button(text=f"{minute:02d}", callback_data=f"{call}_{minute}")
+        minutes.button(text=f"{minute:02d}", callback_data=f"{call}_{minute:02d}")
     minutes.adjust(6)
     return minutes.as_markup()
 
@@ -113,13 +113,3 @@ def delete_reminder():
     kb.row(InlineKeyboardButton(text="🗑 удалить", callback_data="remove_remind"))
 
     return kb.as_markup()
-
-
-
-
-
-
-
-
-
-

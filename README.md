@@ -27,7 +27,7 @@ You can list and delete your active reminders at any time.
 ## 🧩 Technologies Used
 
 - [aiogram 3.x](https://github.com/aiogram/aiogram ) — async Telegram bot framework
-- [apscheduler 3.x](https://github.com/agronholm/apscheduler ) — task scheduling
+- [apscheduler 4.x](https://github.com/agronholm/apscheduler ) — task scheduling
 - [asyncpg](https://github.com/MagicStack/asyncpg ) — async PostgreSQL driver
 - [SQLAlchemy](https://github.com/sqlalchemy/sqlalchemy ) — for scheduler storage
 - [aiogram-calendar](https://github.com/aiogram-md/aiogram_calendar ) — calendar UI for choosing dates
