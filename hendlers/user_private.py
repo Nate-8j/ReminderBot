@@ -460,7 +460,7 @@ async def interval_save(message: types.Message, state: FSMContext):
             await reminder_manager.add_onetime_reminder(
                 chat_id=chat_id,
                 text=txt,
-                remind_time=reminder_time,
+                remind_time=scheduled_time,
                 small_text=small_text,
                 type_='инт.',
                 time_next_reminder=time_
