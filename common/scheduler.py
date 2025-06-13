@@ -34,7 +34,7 @@ class ReminderManager:
         )
         self.data_store = SQLAlchemyDataStore(self.engine)
         self.scheduler = AsyncScheduler(self.data_store)
-        self.scheduler_ready = None
+        self.scheduler_ready = asyncio.Future()
 
     async def init_scheduler_event(self):
         loop = asyncio.get_event_loop()

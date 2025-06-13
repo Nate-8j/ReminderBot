@@ -488,7 +488,10 @@ async def list_reminders(message: types.Message, state: FSMContext):
     await state.clear()
     schedulers = await reminder_manager.scheduler.get_schedules()
 
-    user_reminders = [s for s in schedulers if s.args[0]['chat_id'] == message.chat.id]
+    user_reminders = [
+        s for s in schedulers
+        if s.next_fire_time is not None and s.args[0]['chat_id'] == message.chat.id
+    ]
     if not user_reminders:
         await message.answer("❌ У вас нет активных напоминаний.")
         return
