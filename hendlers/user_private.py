@@ -452,19 +452,18 @@ async def interval_save(message: types.Message, state: FSMContext):
         parse_mode="HTML"
     )
 
-    async with reminder_manager.scheduler:
-        for delta in intervals:
-            scheduled_time = reminder_time + delta
-            time_ = str(scheduled_time)
+    for delta in intervals:
+        scheduled_time = reminder_time + delta
+        time_ = str(scheduled_time)
 
-            await reminder_manager.add_onetime_reminder(
-                chat_id=chat_id,
-                text=txt,
-                remind_time=scheduled_time,
-                small_text=small_text,
-                type_='инт.',
-                time_next_reminder=time_
-            )
+        await reminder_manager.add_onetime_reminder(
+            chat_id=chat_id,
+            text=txt,
+            remind_time=scheduled_time,
+            small_text=small_text,
+            type_='инт.',
+            time_next_reminder=time_
+        )
 
     await bot.edit_message_text(
         chat_id=message.chat.id,

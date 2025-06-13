@@ -2,6 +2,10 @@ import asyncio
 
 from aiogram import types
 
+import logging
+logging.basicConfig(level=logging.DEBUG)
+logging.getLogger('apscheduler').setLevel(logging.DEBUG)
+
 from config import reminder_manager, bot, dp
 from common.bot_cmds_list import private
 from hendlers.user_private import  usr_prv
