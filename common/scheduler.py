@@ -37,21 +37,15 @@ class ReminderManager:
         self.scheduler_ready = asyncio.Future()
 
     async def init_scheduler_event(self):
-        loop = asyncio.get_event_loop()
-        self.scheduler_ready = loop.create_future()
+        if self.scheduler_ready.done():
+            self.scheduler_ready = asyncio.Future()
 
     async def start_apscheduler(self):
-        async with self.scheduler:
-            self.scheduler_ready.set_result(None)
-            await self.scheduler.run_until_stopped()
+        self.scheduler_ready.set_result(None)
+        await self.scheduler.run_until_stopped()
 
     async def close_scheduler(self):
         await self.engine.dispose()
-
-    @asynccontextmanager
-    async def get_scheduler(self):
-        async with self.scheduler:
-            yield self.scheduler
 
     async def add_onetime_reminder(
             self,
