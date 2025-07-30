@@ -5,10 +5,10 @@ from datetime import datetime
 from sqlalchemy.ext.asyncio import create_async_engine
 from apscheduler.triggers.cron import CronTrigger
 from apscheduler.triggers.date import DateTrigger
-from apscheduler import AsyncScheduler, JobReleased, ScheduleRemoved
+from apscheduler import AsyncScheduler, JobReleased, ScheduleRemoved, JobRemoved
 from apscheduler.datastores.sqlalchemy import SQLAlchemyDataStore
 
-from common.database.db_repository import Repository
+from common.bot_instance import bot
 
 
 async def sending_reminder(remind_data):
@@ -19,10 +19,10 @@ async def sending_reminder(remind_data):
     )
     await bot.send_message(chat_id=remind_data['chat_id'], text=message_text, parse_mode="HTML")
 
+
 class ReminderManager:
-    def __init__(self, repository: Repository, bot):
+    def __init__(self, repository):
         self.repository = repository
-        self.bot = bot
 
         self.engine = create_async_engine(
             os.getenv("ASYNC_DB_URL"),
@@ -42,16 +42,11 @@ class ReminderManager:
             self.scheduler_ready = asyncio.Future()
 
     async def handle_job_released(self, event: [JobReleased, ScheduleRemoved]):
-        pass
         schedule_id = event.schedule_id
         await self.repository.delete_reminder(schedule_id)
-        # schedule = await self.scheduler.get_schedule(schedule_id)
-        # if schedule is None or schedule.next_fire_time is not None:
-        #     return
 
     async def start_apscheduler(self):
         self.scheduler_ready.set_result(None)
-
         async with self.scheduler:
             self.scheduler.subscribe(self.handle_job_released, [JobReleased, ScheduleRemoved], is_async=True)
             await self.scheduler.run_until_stopped()

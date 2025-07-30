@@ -33,7 +33,10 @@ test_db.py
 docker-compose.override.yml
 docker-compose.yml
 Dockerfile
+*.dockerignore
 
 # Прочее
 .DS_Store
 Thumbs.db
+
+*.psql

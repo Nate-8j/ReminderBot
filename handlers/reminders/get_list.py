@@ -14,7 +14,7 @@ class ListHandlers:
 
         self.router.message.register(self.list_reminders, F.text.lower() == "список")
         self.router.message.register(self.list_reminders, Command('list'))
-        self.router.message.register(self.remove_remind, F.data == "remove_remind", StateFilter(None))
+        self.router.callback_query.register(self.remove_remind, F.data == "remove_remind", StateFilter(None))
         self.router.message.register(self.remove_r, ListStt.txt)
 
     async def list_reminders(self, message: types.Message, state: FSMContext):
@@ -56,7 +56,7 @@ class ListHandlers:
         reminder_list = data.get('reminder_seq', [])
 
         try:
-            indices = [int(x) - 1 for x in message.text.split()]
+            indices = [int(x) for x in message.text.split()]
         except ValueError:
             await message.answer("❌ Введите корректные номера через пробелы")
             return
@@ -66,7 +66,7 @@ class ListHandlers:
 
         deleted = []
         for idx in indices:
-            if 0 < idx < len(reminder_list):
+            if 0 < idx < len(reminder_list) + 1:
                 try:
                     reminder = reminder_list[idx - 1]
                     job_id = reminder['job_id']

@@ -5,23 +5,25 @@ from aiogram import Bot, Dispatcher
 from common.database.db_repository import Repository
 from common.scheduler import ReminderManager
 from config import BOT_TOKEN, DB_URL
-from common.bot_cmds_list import private
+from kbds.bot_cmds_list import private
 
 from handlers.user_handlers import UserHandlers
 from handlers.reminders.one_time import OneTimeHandlers
 from handlers.reminders.regular import RegularHandlers
 from handlers.reminders.get_list import ListHandlers
 
+from common.bot_instance import bot
+
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
 logging.getLogger('apscheduler').setLevel(logging.DEBUG)
 
-bot = Bot(token=BOT_TOKEN)
+
 dp = Dispatcher()
 
 repository = Repository(DB_URL)
-reminder_manager = ReminderManager(repository, bot)
+reminder_manager = ReminderManager(repository)
 
 user_handlers = UserHandlers(repository)
 one_time_handlers = OneTimeHandlers(bot, reminder_manager, repository)
