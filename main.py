@@ -1,10 +1,10 @@
 import asyncio
 from aiogram import types
-from aiogram import Bot, Dispatcher
+from aiogram import Dispatcher
 
 from common.database.db_repository import Repository
 from common.scheduler import ReminderManager
-from config import BOT_TOKEN, DB_URL
+from config import DB_URL
 from kbds.bot_cmds_list import private
 
 from handlers.user_handlers import UserHandlers
