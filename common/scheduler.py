@@ -5,7 +5,7 @@ from datetime import datetime
 from sqlalchemy.ext.asyncio import create_async_engine
 from apscheduler.triggers.cron import CronTrigger
 from apscheduler.triggers.date import DateTrigger
-from apscheduler import AsyncScheduler, JobReleased, ScheduleRemoved, JobRemoved
+from apscheduler import AsyncScheduler, JobReleased, ScheduleRemoved
 from apscheduler.datastores.sqlalchemy import SQLAlchemyDataStore
 
 from common.bot_instance import bot
